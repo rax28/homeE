@@ -5,10 +5,10 @@ import FloatingActionButtons from "./components/FloatingActionButtons";
 import FloatingSideNav from "./components/FloatingSideNav";
 import BarcodeScannerModal from "./components/BarcodeScannerModal";
 import ConfirmationModal from "./components/ConfirmationModal";
-import { fetchItems, deleteItem } from "./api/items.api";
-import { fetchReminders, confirmPacketFinished } from "./api/reminder.api";
-import { addFromBarcode } from "./api/barcode.api";
-import { fetchRestock } from "./api/restock.api";
+import { fetchItems, deleteItem } from "./lib/api/items.api";
+import { fetchReminders, confirmPacketFinished } from "./lib/api/reminder.api";
+import { addFromBarcode } from "./lib/api/barcode.api";
+import { fetchRestock } from "./lib/api/restock.api";
 
 const styles = `
   @keyframes fadeIn {
