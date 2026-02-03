@@ -9,7 +9,7 @@ import { fetchItems, deleteItem } from "./lib/api/items";
 import { fetchReminders, confirmPacketFinished } from "./lib/api/reminder";
 import { addFromBarcode } from "./lib/api/barcode";
 import { fetchRestock, deleteRestockItem } from "./lib/api/restock";
-import CameraCaptureModal from "./components/CameraCaptureModule.Jsx";
+import CameraCaptureModal from "./components/CameraCaptureModule.jsx";
 import { Toaster } from "sonner";
 import { toast } from "sonner";
 
