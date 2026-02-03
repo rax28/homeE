@@ -1,7 +1,8 @@
-import { Menu, Scan, Search } from 'lucide-react';
+import { Menu, Scan, Search, CameraIcon } from "lucide-react";
 
 export default function Header({
   activeView,
+  setActiveView,
   categories,
   selectedCategory,
   setSelectedCategory,
@@ -9,7 +10,8 @@ export default function Header({
   setSearchQuery,
   setShowScanner,
   setShowFloatingNav,
-  showFloatingNav
+  showFloatingNav,
+  setShowCamera,
 }) {
   return (
     <header className="bg-slate-800 shadow-sm sticky top-0 z-10">
@@ -18,20 +20,38 @@ export default function Header({
           <div className="flex items-center gap-3">
             <button
               onClick={() => setShowFloatingNav(!showFloatingNav)}
-              className="text-slate-100 p-2 hover:bg-slate-700 rounded-lg transition"
+              className="text-slate-100 p-2 hover:bg-slate-700 cursor-pointer rounded-lg transition"
             >
               <Menu className="w-6 h-6" />
             </button>
-            <h1 className="text-2xl font-bold text-slate-100">Home Inventory</h1>
+            <button
+              onClick={() => setActiveView("inventory")}
+              className="flex items-center gap-2 text-2xl font-bold text-slate-100 hover:text-emerald-400 
+             transition cursor-pointer"
+            >
+              Home-E
+            </button>
           </div>
-          <button 
-            onClick={() => setShowScanner(true)}
-            className="bg-indigo-500 text-white p-3 rounded-full shadow-lg hover:bg-indigo-600 active:scale-95 transition"
-          >
-            <Scan className="w-6 h-6" />
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => {
+                // console.log("📸 Open camera clicked");
+                setShowCamera(true);
+              }}
+              className="bg-indigo-500 text-white p-3 rounded-full shadow-lg hover:bg-indigo-600 cursor-pointer active:scale-95 transition"
+            >
+              <CameraIcon className="w-6 h-6" />
+            </button>
+
+            <button
+              onClick={() => setShowScanner(true)}
+              className="bg-indigo-500 text-white p-3 rounded-full shadow-lg hover:bg-indigo-600 cursor-pointer active:scale-95 transition"
+            >
+              <Scan className="w-6 h-6" />
+            </button>
+          </div>
         </div>
-        
+
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
           <input
@@ -44,16 +64,16 @@ export default function Header({
         </div>
       </div>
 
-      {activeView === 'inventory' && (
+      {activeView === "inventory" && (
         <div className="px-4 pb-3 flex gap-2 overflow-x-auto">
-          {categories.map(cat => (
+          {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
               className={`px-4 py-2 rounded-full whitespace-nowrap capitalize transition ${
                 selectedCategory === cat
-                  ? 'bg-indigo-500 text-white'
-                  : 'bg-slate-700 text-slate-300'
+                  ? "bg-indigo-500 text-white"
+                  : "bg-slate-700 text-slate-300"
               }`}
             >
               {cat}

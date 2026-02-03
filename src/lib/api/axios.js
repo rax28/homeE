@@ -3,7 +3,7 @@ import axios from "axios";
 export const axiosInstance = axios.create({
   baseURL:
     import.meta.env.MODE === "development"
-      ? "https://backendhi.onrender.com/api"
+      ? "http://localhost:3000/api"
       : "/api",
   withCredentials: true,
   timeout: 30000, // 30 second timeout

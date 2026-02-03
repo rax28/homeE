@@ -1,19 +1,20 @@
-import InventoryView from './InventoryView';
-import NotificationsView from './NotificationsView';
-import RestockView from './RestockView';
+import InventoryView from "./InventoryView";
+import NotificationsView from "./NotificationsView";
+import RestockView from "./RestockView";
 
 export default function MainContent({
   activeView,
   groupedItems,
   filteredItems,
   handleDeleteItem,
+  handleDeleteRestockItem,
   reminders,
   handleReminderAction,
-  restockItems = [] // Add default value here too
+  restockItems = [], // Add default value here too
 }) {
   return (
     <main className="px-4 py-4 pb-6">
-      {activeView === 'inventory' && (
+      {activeView === "inventory" && (
         <InventoryView
           groupedItems={groupedItems}
           filteredItems={filteredItems}
@@ -21,15 +22,18 @@ export default function MainContent({
         />
       )}
 
-      {activeView === 'notifications' && (
+      {activeView === "notifications" && (
         <NotificationsView
           reminders={reminders}
           handleReminderAction={handleReminderAction}
         />
       )}
 
-      {activeView === 'restock' && (
-        <RestockView restockItems={restockItems} />
+      {activeView === "restock" && (
+        <RestockView
+          restockItems={restockItems}
+          handleDeleteRestockItem={handleDeleteRestockItem}
+        />
       )}
     </main>
   );

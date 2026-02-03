@@ -8,7 +8,10 @@ import ConfirmationModal from "./components/ConfirmationModal";
 import { fetchItems, deleteItem } from "./lib/api/items";
 import { fetchReminders, confirmPacketFinished } from "./lib/api/reminder";
 import { addFromBarcode } from "./lib/api/barcode";
-import { fetchRestock } from "./lib/api/restock";
+import { fetchRestock, deleteRestockItem } from "./lib/api/restock";
+import CameraCaptureModal from "./components/CameraCaptureModule.Jsx";
+import { Toaster } from "sonner";
+import { toast } from "sonner";
 
 const styles = `
   @keyframes fadeIn {
@@ -35,6 +38,8 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [showScanner, setShowScanner] = useState(false);
+  const [showCamera, setShowCamera] = useState(false);
+  const [imageBase64, setImageBase64] = useState(null);
   const [reminderCount, setReminderCount] = useState(0);
   const [scannedItem, setScannedItem] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -63,9 +68,7 @@ export default function App() {
     } catch (err) {
       console.error("Error fetching items:", err);
       if (err.code === "ERR_NETWORK") {
-        setError(
-          "Cannot connect to backend. Is it running on http://localhost:3000?"
-        );
+        setError("Cannot connect to backend. Is it running 🏃 👀 ?");
       } else {
         setError("Failed to load items. Please try again.");
       }
@@ -97,6 +100,27 @@ export default function App() {
       console.error("Error fetching restock items:", err);
       setRestockItems([]);
     }
+  };
+
+  const handleDeleteRestockItem = (restockItemId) => {
+    toast.warning("Delete this restock item?", {
+      description: "This action cannot be undone.",
+      action: {
+        label: "Delete",
+        onClick: async () => {
+          try {
+            await deleteRestockItem(restockItemId);
+            toast.success("Restock item deleted");
+            loadRestockItems();
+          } catch (err) {
+            toast.error("Failed to delete restock item");
+          }
+        },
+      },
+      cancel: {
+        label: "Cancel",
+      },
+    });
   };
 
   const filteredItems = items.filter((item) => {
@@ -132,19 +156,50 @@ export default function App() {
     }
   };
 
-  const handleDeleteItem = async (itemId) => {
-    if (!confirm("Are you sure you want to delete this item? " + itemId))
-      return;
+  const handleDeleteItem = (itemId) => {
+    toast.warning("Delete this item?", {
+      description: "This action cannot be undone.",
+      action: {
+        label: "Delete",
+        onClick: async () => {
+          try {
+            await deleteItem(itemId);
 
-    try {
-      await deleteItem(itemId);
-      setItems(
-        items.filter((item) => item._id !== itemId && item._id !== itemId)
-      );
-    } catch (err) {
-      console.error("Error deleting item:", err);
-      alert("Failed to delete item. Please try again.");
-    }
+            setItems((prev) => prev.filter((item) => item._id !== itemId));
+
+            toast.success("Item deleted");
+          } catch (err) {
+            console.error("Error deleting item:", err);
+            toast.error("Failed to delete item");
+          }
+        },
+      },
+      cancel: {
+        label: "Cancel",
+      },
+    });
+  };
+
+  // ✅ THIS is handleImageCapture
+  const handleImageCapture = async (base64) => {
+    console.log("Captured image:", base64);
+      setImageBase64(base64);
+
+      // Optional: send to AI immediately
+      const res = await fetch("http://localhost:3000/api/ai/detectFruits", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ image: base64 }),
+      });
+      
+      const data = await res.json();
+      if (data.category == "fruit")
+      {        toast.success(`Detected fruit: ${data.name}. Weight added: ${data.weight}g`);
+      }
+      else {
+        toast.error(`Detected item: ${data.name} (${data.category})`);
+      }
+    
   };
 
   const handleBarcodeScan = async (barcode) => {
@@ -161,12 +216,14 @@ export default function App() {
         qty: item.qty,
       });
 
+      toast.success(`Found item: ${item.name}`);
+
       setShowScanner(false);
       setShowConfirmation(true);
 
       loadData();
     } catch (err) {
-      alert("Product not found");
+     toast.error("Failed to add item from barcode");
       setShowScanner(false);
     } finally {
       setLoading(false);
@@ -225,7 +282,7 @@ export default function App() {
             Retry Connection
           </button>
           <p className="text-xs text-slate-500 mt-2">
-            Backend should be running on http://localhost:5000
+            Oppssiess!! Retry for Inventory to Load !.
           </p>
         </div>
       </div>
@@ -234,6 +291,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 pb-6">
+      <Toaster richColors position="bottom-right" />
       <style>{styles}</style>
 
       <Header
@@ -244,8 +302,10 @@ export default function App() {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         setShowScanner={setShowScanner}
+        setShowCamera={setShowCamera}
         setShowFloatingNav={setShowFloatingNav}
         showFloatingNav={showFloatingNav}
+        setActiveView={setActiveView}
       />
 
       <MainContent
@@ -256,6 +316,7 @@ export default function App() {
         reminders={reminders}
         handleReminderAction={handleReminderAction}
         restockItems={restockItems}
+        handleDeleteRestockItem={handleDeleteRestockItem}
       />
 
       <FloatingActionButtons
@@ -272,7 +333,14 @@ export default function App() {
         reminders={reminders}
         reminderCount={reminderCount}
         restockItems={restockItems}
+        handleDeleteRestockItem={handleDeleteRestockItem}
         items={items}
+      />
+
+      <CameraCaptureModal
+        showCamera={showCamera}
+        setShowCamera={setShowCamera}
+        handleImageCapture={handleImageCapture}
       />
 
       <BarcodeScannerModal

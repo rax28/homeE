@@ -1,18 +1,18 @@
-import { Plus, Package, AlertCircle, Bell } from 'lucide-react';
+import { Plus, Package, AlertCircle, Bell } from "lucide-react";
 
 export default function FloatingActionButtons({
   activeView,
   setActiveView,
   showQuickMenu,
   setShowQuickMenu,
-  notificationCount
+  notificationCount,
 }) {
   return (
-    <div className="fixed left-4 bottom-24 z-30 flex flex-col gap-3">
+    <div className="fixed left-4 bottom-24 z-30 flex flex-col gap-3 ">
       <button
         onClick={() => setShowQuickMenu(!showQuickMenu)}
-        className={`bg-indigo-600 text-white p-4 rounded-full shadow-lg hover:bg-indigo-700 active:scale-95 transition ${
-          showQuickMenu ? 'rotate-45' : ''
+        className={`bg-indigo-600 text-white cursor-pointer p-4 rounded-full shadow-lg hover:bg-indigo-700 active:scale-95 transition ${
+          showQuickMenu ? "rotate-45" : ""
         }`}
       >
         <Plus className="w-6 h-6" />
@@ -22,41 +22,41 @@ export default function FloatingActionButtons({
         <div className="flex flex-col gap-3 animate-fadeIn">
           <button
             onClick={() => {
-              setActiveView('inventory');
+              setActiveView("inventory");
               setShowQuickMenu(false);
             }}
-            className={`p-4 rounded-full shadow-lg transition flex items-center justify-center ${
-              activeView === 'inventory'
-                ? 'bg-indigo-600 text-white'
-                : 'bg-white/80 backdrop-blur text-slate-700 hover:bg-white'
+            className={`p-4 rounded-full cursor-pointer shadow-lg transition flex items-center justify-center ${
+              activeView === "inventory"
+                ? "bg-indigo-600 text-white"
+                : "bg-white/80 backdrop-blur text-slate-700 hover:bg-white"
             }`}
           >
             <Package className="w-5 h-5" />
           </button>
-          
+
           <button
             onClick={() => {
-              setActiveView('restock');
+              setActiveView("restock");
               setShowQuickMenu(false);
             }}
-            className={`p-4 rounded-full shadow-lg transition flex items-center justify-center ${
-              activeView === 'restock'
-                ? 'bg-indigo-600 text-white'
-                : 'bg-white/80 backdrop-blur text-slate-700 hover:bg-white'
+            className={`p-4 rounded-full cursor-pointer shadow-lg transition flex items-center justify-center ${
+              activeView === "restock"
+                ? "bg-indigo-600 text-white"
+                : "bg-white/80 backdrop-blur text-slate-700 hover:bg-white"
             }`}
           >
             <AlertCircle className="w-5 h-5" />
           </button>
-          
+
           <button
             onClick={() => {
-              setActiveView('notifications');
+              setActiveView("notifications");
               setShowQuickMenu(false);
             }}
-            className={`p-4 rounded-full shadow-lg transition flex items-center justify-center relative ${
-              activeView === 'notifications'
-                ? 'bg-indigo-600 text-white'
-                : 'bg-white/80 backdrop-blur text-slate-700 hover:bg-white'
+            className={`p-4 rounded-full cursor-pointer shadow-lg transition flex items-center justify-center relative ${
+              activeView === "notifications"
+                ? "bg-indigo-600 text-white"
+                : "bg-white/80 backdrop-blur text-slate-700 hover:bg-white"
             }`}
           >
             <Bell className="w-5 h-5" />

@@ -1,13 +1,19 @@
-import { Package, Trash2 } from 'lucide-react';
-import { getExpiryStatus } from '../utils/helpers';
+import { Package, Trash2 } from "lucide-react";
+import { getExpiryStatus } from "../utils/helpers";
 
-export default function InventoryView({ groupedItems = {}, filteredItems = [], handleDeleteItem }) {
+export default function InventoryView({
+  groupedItems = {},
+  filteredItems = [],
+  handleDeleteItem,
+}) {
   if (filteredItems.length === 0) {
     return (
       <div className="text-center py-12">
         <Package className="w-16 h-16 text-slate-300 mx-auto mb-4" />
         <p className="text-slate-500">No items found</p>
-        <p className="text-slate-400 text-sm mt-2">Start by scanning a barcode to add items</p>
+        <p className="text-slate-400 text-sm mt-2">
+          Start by scanning a barcode to add items
+        </p>
       </div>
     );
   }
@@ -21,15 +27,22 @@ export default function InventoryView({ groupedItems = {}, filteredItems = [], h
             {category}
           </h2>
           <div className="space-y-3">
-            {categoryItems.map(item => {
-              const expiryInfo = getExpiryStatus(item.expiryDate);
+            {categoryItems.map((item) => {
+              const expiryInfo = getExpiryStatus(item.predictedExpiry);
               return (
-                <div key={item._id || item.id} className="bg-white/60 backdrop-blur rounded-lg p-4 shadow-sm border border-slate-200">
+                <div
+                  key={item._id || item.id}
+                  className="bg-white/60 backdrop-blur rounded-lg p-4 shadow-sm border border-slate-200"
+                >
                   <div className="flex justify-between items-start mb-2">
                     <div className="flex-1">
-                      <h3 className="font-semibold text-slate-800">{item.name}</h3>
+                      <h3 className="font-semibold text-slate-800">
+                        {item.name}
+                      </h3>
                       <p className="text-sm text-slate-500">
-                        Qty: {item.quantity || item.qty || 0}
+                        {item.category === "fruit" || item.category === "staple"
+                          ? `Weight: ${item.weight ?? 0}`
+                          : `Qty: ${item.quantity ?? 0}`}
                       </p>
                     </div>
                     <button
@@ -40,11 +53,22 @@ export default function InventoryView({ groupedItems = {}, filteredItems = [], h
                     </button>
                   </div>
                   <div className="flex items-center justify-between text-xs">
-                    <span className={`px-2 py-1 rounded-full ${expiryInfo.color}`}>
-                      {expiryInfo.text}
-                    </span>
+                    {item.category === "fruit" ? (
+                      <span
+                        className={`px-2 py-1 rounded-full ${expiryInfo.color}`}
+                      >
+                        {expiryInfo.text}
+                      </span>
+                    ) : (
+                      <span
+                        className={`px-2 py-1 rounded-full bg-indigo-500 text-white`}
+                      >
+                        item finished?
+                      </span>
+                    )}
+
                     <span className="text-slate-500">
-                      Added via {item.addedFrom || 'unknown'}
+                      Added via {item.source || "unknown"}
                     </span>
                   </div>
                 </div>

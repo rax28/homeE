@@ -5,8 +5,10 @@ import {
   Clock,
   AlertTriangle,
 } from "lucide-react";
-
-export default function RestockView({ restockItems = [] }) {
+export default function RestockView({
+  restockItems = [],
+  handleDeleteRestockItem,
+}) {
   // Helper function to get reason label and icon
   const getReasonInfo = (reason) => {
     switch (reason) {
@@ -133,8 +135,11 @@ export default function RestockView({ restockItems = [] }) {
                   </div>
                 </div>
 
-                <button className="px-4 py-2 bg-indigo-500 text-white rounded-lg text-sm font-medium hover:bg-indigo-600 whitespace-nowrap ml-4">
-                  Order Now
+                <button
+                  onClick={() => handleDeleteRestockItem(item._id)}
+                  className="px-4 py-2 cursor-pointer bg-indigo-500 text-white rounded-lg text-sm font-medium hover:bg-indigo-600 whitespace-nowrap ml-4"
+                >
+                  Ignore
                 </button>
               </div>
             </div>
