@@ -186,7 +186,7 @@ export default function App() {
       setImageBase64(base64);
 
       // Optional: send to AI immediately
-      const res = await fetch("http://localhost:3000/api/ai/detectFruits", {
+      const res = await fetch("https://backendhi.onrender.com/api/ai/detectFruits", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ image: base64 }),
