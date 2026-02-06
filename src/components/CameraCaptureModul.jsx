@@ -45,7 +45,7 @@ export default function CameraCaptureModal({
     ctx.drawImage(video, 0, 0);
 
     // ✅ Base64 image
-    const base64Image = canvas.toDataURL("image/jpeg", 0.8);
+    const base64Image = canvas.toDataURL("image/jpeg", 0.8).split(",")[1]; // 🔑 remove data:image/... prefix
 
     stopCamera();
     setShowCamera(false);
