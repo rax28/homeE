@@ -9,7 +9,7 @@ import { fetchItems, deleteItem } from "./lib/api/items";
 import { fetchReminders, confirmPacketFinished } from "./lib/api/reminder";
 import { addFromBarcode } from "./lib/api/barcode";
 import { fetchRestock, deleteRestockItem } from "./lib/api/restock";
-import CameraCaptureModal from "./components/CameraCaptureModule.jsx";
+import CameraCaptureModal from "./components/CameraCaptureModul";
 import { Toaster } from "sonner";
 import { toast } from "sonner";
 
@@ -183,23 +183,23 @@ export default function App() {
   // ✅ THIS is handleImageCapture
   const handleImageCapture = async (base64) => {
     console.log("Captured image:", base64);
-      setImageBase64(base64);
+    setImageBase64(base64);
 
-      // Optional: send to AI immediately
-      const res = await fetch("https://backendhi.onrender.com/api/ai/detectFruits", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ image: base64 }),
-      });
-      
-      const data = await res.json();
-      if (data.category == "fruit")
-      {        toast.success(`Detected fruit: ${data.name}. Weight added: ${data.weight}g`);
-      }
-      else {
-        toast.error(`Detected item: ${data.name} (${data.category})`);
-      }
-    
+    // Optional: send to AI immediately
+    const res = await fetch("http://localhost:3000/api/ai/detectFruits", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ image: base64 }),
+    });
+
+    const data = await res.json();
+    if (data.category == "fruit") {
+      toast.success(
+        `Detected fruit: ${data.name}. Weight added: ${data.weight}g`,
+      );
+    } else {
+      toast.error(`Detected item: ${data.name} (${data.category})`);
+    }
   };
 
   const handleBarcodeScan = async (barcode) => {
@@ -223,7 +223,7 @@ export default function App() {
 
       loadData();
     } catch (err) {
-     toast.error("Failed to add item from barcode");
+      toast.error("Failed to add item from barcode");
       setShowScanner(false);
     } finally {
       setLoading(false);
