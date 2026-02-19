@@ -191,17 +191,19 @@ export default function App() {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ image: base64 }),
+        body: JSON.stringify({
+          image: base64,
+        }),
       },
     );
 
     const data = await res.json();
     if (data.category == "fruit") {
-      toast.success(
-        `Detected fruit: ${data.name}. Weight added: ${data.weight}g`,
-      );
+      toast.success(`Detected fruit: ${data.name}.`);
     } else {
-      toast.error(`Detected item: ${data.name} (${data.category})`);
+      toast.error(
+        `Detected item: ${data.name}. Not a fruit! Try again with a clear image of a fruit.`,
+      ); // Show detected item name
     }
   };
 
