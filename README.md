@@ -1,80 +1,109 @@
-🏠 Home-E — Smart Edge AI Home Inventory System
-An intelligent home inventory system powered by Raspberry Pi, barcode scanning, computer vision, weight sensing, and cloud AI processing.
-🚀 Overview
-Home-E is a smart home inventory management system that:
-Automatically detects fruits & vegetables using AI
-Predicts freshness using a custom CNN model
-Tracks grocery items via barcode scanning
-Measures weight using a load cell sensor
-Syncs data to a cloud backend
-Works even when offline (edge caching)
-The system runs on a Raspberry Pi Zero 2 W as an edge device and connects to a cloud backend for AI processing and storage.
-🧠 Core Problem Solved
-Manual grocery tracking is inefficient.
-Expiry dates are often inaccurate for fresh produce.
-Households waste food due to lack of freshness monitoring.
-Inventory tracking apps rely fully on manual entry.
-Home-E automates inventory tracking using hardware + AI.
-🏗️ System Architecture
+# Home-E
+Smart Edge AI Home Inventory System
 
-Camera → Edge Device (Raspberry Pi)
-         ↓
-Barcode Scanner
-         ↓
-Weight Sensor (HX711)
-         ↓
-Edge Processing & Caching
-         ↓
-Cloud Backend (Express API)
-         ↓
-AI Service (YOLO + Freshness CNN)
-         ↓
-MongoDB Database
-         ↓
-Frontend (Vite + React)
-🧩 Hardware Components
-Raspberry Pi Zero 2 W
-5MP Raspberry Pi Camera Module
-HX711 Load Cell (10kg)
-0.96" I2C OLED Display (SSD1306)
-Push Button (momentary switch)
-USB Barcode Scanner
-🖥️ Software Stack
-🟢 Frontend
-React (Vite)
-TailwindCSS
-Hosted on Vercel
-🔵 Backend
-Node.js
-Express.js
-MongoDB
-🟣 AI Service
-YOLOv8 (object detection)
-ONNX Runtime (freshness model)
-FastAPI
-Python
-🟠 Edge
-Python
-GPIO control
-Offline caching
-REST API communication
-🔍 Features
-📦 Inventory Management
-Add items via barcode
-Add items via AI detection
-Manual addition option
-Category-based filtering
-Search functionality
-🍎 AI Freshness Detection
-Fruit detection using YOLOv8
-Cropping via bounding box
-Freshness prediction via CNN
-Freshness score (0–100)
-⚖️ Weight Tracking
-Real-time weight reading
-Auto quantity estimation
-Integration with item database
-🌐 Cloud Sync
-Edge caching when offline
-Automatic sync when internet reconnects
-REST API integration
+## Overview
+Home-E is an intelligent home inventory system powered by edge computing and cloud AI. It automates grocery tracking using computer vision, barcode scanning, and weight sensing to reduce food waste and eliminate manual entry.
+
+The system runs on a Raspberry Pi Zero 2 W as an edge device and integrates with a cloud backend for AI processing and storage.
+
+---
+
+## Core Capabilities
+- Automatic fruit and vegetable detection using YOLOv8
+- Freshness prediction using a custom CNN model
+- Barcode-based product identification
+- Real-time weight measurement via load cell
+- Offline edge caching
+- Automatic cloud synchronization
+
+---
+
+## Problem Statement
+Manual grocery tracking is inefficient. Expiry dates for fresh produce are often inaccurate. Many households waste food due to lack of freshness monitoring. Existing inventory applications rely heavily on manual input.
+
+Home-E automates inventory tracking through hardware integration and AI processing.
+
+---
+
+## System Architecture
+
+Camera  
+↓  
+Edge Device (Raspberry Pi)  
+↓  
+Barcode Scanner  
+↓  
+Weight Sensor (HX711)  
+↓  
+Edge Processing and Offline Cache  
+↓  
+Cloud Backend (Express API)  
+↓  
+AI Service (YOLO + Freshness CNN)  
+↓  
+MongoDB  
+↓  
+Frontend (React + Vite)
+
+---
+
+## Hardware Components
+- Raspberry Pi Zero 2 W  
+- Raspberry Pi Camera Module (5MP)  
+- HX711 Load Cell (10kg)  
+- 0.96" I2C OLED Display (SSD1306)  
+- Momentary Push Button  
+- USB Barcode Scanner  
+
+---
+
+## Software Stack
+
+### Frontend
+- React (Vite)
+- TailwindCSS
+- Hosted on Vercel
+
+### Backend
+- Node.js
+- Express.js
+- MongoDB
+
+### AI Service
+- YOLOv8 (Object Detection)
+- ONNX Runtime (Freshness Model)
+- FastAPI
+- Python
+
+### Edge Software
+- Python
+- GPIO Control
+- Offline Caching Layer
+- REST API Communication
+
+---
+
+## Features
+
+### Inventory Management
+- Add items via barcode
+- Add items via AI detection
+- Manual item entry
+- Category-based filtering
+- Search functionality
+
+### AI Freshness Detection
+- Fruit detection using YOLOv8
+- Bounding box cropping
+- Freshness prediction using CNN
+- Freshness score (0–100)
+
+### Weight Tracking
+- Real-time weight reading
+- Automatic quantity estimation
+- Integration with inventory database
+
+### Cloud Synchronization
+- Offline edge caching
+- Automatic sync on reconnection
+- REST API integration
